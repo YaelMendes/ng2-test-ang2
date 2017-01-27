@@ -1,6 +1,22 @@
 <h1>
   {{title}}
+  <br/>
+  <label>variable: </label><span>{{variable}}</span>
+  <button (click)="compute()">
+    Compute
+  </button>
 </h1>
 
-<br/><br/>
-<comment-list></comment-list>
+
+<ul>
+   <app-user-item
+   *ngFor="let name of names"
+   [name]="name"  [myVar]="param">
+   </app-user-item>
+</ul>
+
+
+<my-counter></my-counter>
+
+
+<demo-form-sku></demo-form-sku>

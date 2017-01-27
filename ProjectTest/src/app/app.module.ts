@@ -4,20 +4,23 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import {CommentListComponent} from "./test-one-story.component";
-import {DataService} from "./data.service";
+import {UserItemComponent} from "./user-item.component";
+import {CounterComponent} from "./counter.component";
+import {DemoFormSku} from "./story-add-form.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    CommentListComponent
+    UserItemComponent,
+    CounterComponent,
+    DemoFormSku
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule
   ],
-  providers: [ DataService ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
