@@ -49,17 +49,20 @@ export class DataService {
   }
 
   getComments() : Observable<Commenty[]>{
-    // ...using get request
     return this.http.get('http://localhost:8090/story/all')
-    // ...and calling .json() on the response to return data
       .map((res:Response) => res.json())
-      //...errors if any
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   getNewStories() : Observable<Story[]>{
     return this.http.get('http://localhost:8090/story/all')
       .map((res:Response) => res.json())
+      .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  getNewStori() : Observable<Story>{
+    return this.http.get('http://localhost:8090/story/one')
+      .map((res:Response) => res.json() as Story)
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
   }
 

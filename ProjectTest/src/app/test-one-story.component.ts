@@ -1,10 +1,8 @@
-/* * * ./app/comments/components/comment-list.component.ts * * */
-// Imports
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+
+import { Component, OnInit } from '@angular/core';
 import {DataService} from "./data.service";
-import {Commenty} from "./comment";
 import {Story} from "./story";
+import {Response, Http} from "@angular/http";
 
 
 
@@ -12,8 +10,15 @@ import {Story} from "./story";
 @Component({
   selector: 'comment-list',
   template: `
-             <li *ngFor="let st of stories">
+   <!--      <span>{{oneStory | json}}</span>-->
+         <span>{{oneStory ?.description}}</span>
+         <span>{{oneStory ?.begin | date:'d MMMM y'}}</span>
+           <br/>
+           
+            <li *ngFor="let st of stories">
            <span>{{st.description}}</span>
+            <span>{{st.begin | date:'d MMMM y'}}</span>
+             <span>{{st.address.firstLine}}</span>
            <br/>
             </li>
     `,
@@ -23,29 +28,39 @@ import {Story} from "./story";
 export class CommentListComponent implements OnInit {
   // Constructor with injected service
   constructor(
-    private commentService: DataService
+    private commentService: DataService,
+    public http: Http
   ){}
-  // Local properties
-  stories: Story[];
 
+  stories: Story[];
+  oneStory: Story;
 
   ngOnInit(){
-    // Load comments
+    this.loadStori();
     this.loadStories();
   }
 
   loadStories(){
-    // Get all comments
     this.commentService.getNewStories()
       .subscribe(
         comments => this.stories = comments, //Bind to view
-        err => {
-          // Log errors if any
-          console.log(err);
+        err => { console.log(err);
         });
   }
 
+  loadStori(){
+    this.http.get('http://localhost:8090/story/one')
+      .subscribe((res: Response) => {
+         this.oneStory = res.json() as Story;
+         });
 
+    console.log('calling oneStory....:'+this.oneStory);
+
+    /*  .subscribe(
+        comments => this.oneStory = comments, //Bind to view
+        err => { console.log(err);
+        });*/
+  }
 
 
 
