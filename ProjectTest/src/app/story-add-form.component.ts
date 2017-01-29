@@ -14,25 +14,45 @@ import {Story} from "./story";
              <div *ngIf="!myFormGroup.valid"
                class="ui error message">Form is invalid</div>
 
-             <div class="field" [class.error]="!skuControl.valid && skuControl.touched">>
+             <div class="field" [class.error]="!myFormGroup.controls['sku'].valid && myFormGroup.controls['sku'].touched">
              <label for="skuInput">SKU</label>
              <input  type="text"
                      id="skuInput"
                      placeholder="enter SKU here ..."
-                     [formControl]="skuControl">
-                     <div *ngIf="skuControl.hasError('required')"
+                     [formControl]="myFormGroup.controls['sku']">
+                     <div *ngIf="myFormGroup.controls['sku'].hasError('required')"
                          class="ui error message">SKU is required</div>
              </div>
             
-           <!--  <div class="field" [class.error]="!createdStory.description.valid">>
-             <label for="storyInput">Story description</label>
-             <input  type="text"
-                     id="storyInput"
-                     placeholder="enter SKU here ..."
-                     [formControl]="createdStory">
-                     <div *ngIf="createdStory.description.hasError('required')"
-                         class="ui error message">description is required</div>
-             </div>-->
+            <!-- description --> 
+             <div class="field" [class.error]="!myFormGroup.controls['description'].valid">>
+             <label for="descriptionInput">Story description</label>
+             <input  type="text" required
+                     id="descriptionInput"
+                     placeholder="enter description here ..."
+                     [formControl]="myFormGroup.get('description')"
+                     [(ngModel)]="description">
+             </div>
+             
+              <!-- address --> 
+             <div class="field" [class.error]="!myFormGroup.controls['address'].valid">>
+             <label for="addressInput">Story address</label>
+             <input  type="text" required
+                     id="addressInput"
+                     placeholder="enter address here ..."
+                     [formControl]="myFormGroup.get('address')"
+                     [(ngModel)]="address">
+             </div>
+             
+              <!-- begin --> 
+             <div class="field" [class.error]="!myFormGroup.controls['begin'].valid">>
+             <label for="beginInput">Story begin</label>
+             <input  type="date" required
+                     id="beginInput"
+                     placeholder="enter begin here ..."
+                     [formControl]="myFormGroup.get('begin')"
+                     [(ngModel)]="begin">
+             </div>
             
              <button type="submit" class="ui button">Submit</button>
            </form>
@@ -41,20 +61,38 @@ import {Story} from "./story";
 })
 export class DemoFormSku {
   myFormGroup: FormGroup;
-  skuControl: AbstractControl;
 
-  createdStory: Story;
+  description: string;
+  address: string;
+  begin: Date;
 
   public constructor(fb: FormBuilder) {
     this.myFormGroup = fb.group(
-      {'sku' : ['ABCD 1233', Validators.required]}
+      {
+        'sku' : ['', Validators.required],
+        'description' : ['', Validators.required],
+        'address' : ['', Validators.required],
+        'begin' : ['', Validators.required]
+      }
     );
-    this.skuControl = this.myFormGroup.controls['sku'];
+  }
 
-    this.createdStory = new Story("", "", new Date(1979,10,27));
+  ngOnInit(): void {
+  }
+
+  addStory(description: string, address: string, begin: Date): void {
+    console.log('you addStory value:', description);
+    console.log('you addStory value:', address);
+    console.log('you addStory value:', begin);
   }
 
   onSubmit(form: any): void {
     console.log('you submitted value:', form);
+
+    console.log('you submitted value:',   form.get('description'));
+    console.log('you submitted value:',   form.get('address'));
+    console.log('you submitted value:',   form.get('begin'));
+
+
   }
 }
